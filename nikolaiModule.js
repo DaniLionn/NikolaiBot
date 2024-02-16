@@ -25,6 +25,8 @@ const questionsAndAnswers = [
     "What is the first row of the keyboard? (Skipping numbers only letters)",
     ["qwertyuiop"],
   ],
+  ["What do you drink for hyrdation?", ["anything"]],
+
   ["What song is this: hottarakashi de kusatte imasu", ["apple dot com"]],
   ["Am I sane?", ["yes", "yes babe", "absolutely"]],
   ["There was a murder! Who's the victim?", ["me"]],
