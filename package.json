@@ -1,0 +1,22 @@
+{
+  "name": "nikolaibot",
+  "version": "1.0.0",
+  "description": "A silly little Discord bot based off of Nikolai from the anime Bungo Stray Dogs",
+  "main": "bot.js",
+  "scripts": {
+    "test": "node bot.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DaniLionn/NikolaiBot.git"
+  },
+  "author": "DaniLionn",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/DaniLionn/NikolaiBot/issues"
+  },
+  "homepage": "https://github.com/DaniLionn/NikolaiBot#readme",
+  "dependencies": {
+    "discord.js": "^14.14.1"
+  }
+}
