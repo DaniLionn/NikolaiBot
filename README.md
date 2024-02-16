@@ -6,6 +6,8 @@ Idea by my sister and I and because of that some of the questions are stuff we'd
 Built using [discord.js](https://github.com/discordjs) and formatted using [prettier](https://github.com/prettier)!
 Requires node.js in order to run.
 
+I have to host the bot off my computer so sadly no bot invite link. The only option is to host it yourself.
+
 # Required permissions
 ![image](https://github.com/DaniLionn/NikolaiBot/assets/107291896/e1b30599-fc85-4159-97b4-49be74bf2f2a)
 
