@@ -33,9 +33,7 @@ for (const folder of commandFolders) {
   for (const file of commandFiles) {
     const filePath = path.join(commandsPath, file);
     const command = require(filePath);
-    // Set a new item in the Collection with the key as the command name and the value as the exported module
     if ("data" in command && "execute" in command) {
-      // console.log("set command!");
       client.commands.set(command.data.name, command);
     } else {
       console.log(
@@ -81,25 +79,21 @@ async function checkAndCreateRole(roleName) {
 
 async function checkAndCreateChannel(channelName) {
   try {
-    // Fetch all guilds the bot is in
     const guilds = client.guilds.cache;
 
-    // Loop through each guild
     for (const guild of guilds.values()) {
       try {
-        // Check if the channel exists
         const channel = guild.channels.cache.find(
           (channel) => channel.name === channelName
         );
 
-        // If the channel doesn't exist, create it
         if (!channel) {
           const createdChannel = await guild.channels.create({
             name: channelName,
-            type: ChannelType.GuildText, // You can also use 'GUILD_VOICE' for a voice channel
-            topic: "i ask questions here every 2 hours!", // Add a topic if needed
-            permissionOverwrites: [], // You can set permission overwrites as needed
-            reason: "nikolai was here 😝 (again)", // Specify a reason for audit logs
+            type: ChannelType.GuildText,
+            topic: "i ask questions here every 2 hours!",
+            permissionOverwrites: [],
+            reason: "nikolai was here 😝 (again)",
           });
           console.log(
             `Channel "${createdChannel.name}" created in guild "${guild.name}"`
@@ -151,7 +145,6 @@ client.once(Events.ClientReady, async (readyClient) => {
   setTimeout(function () {
     const guilds = client.guilds.cache;
 
-    // Loop through each guild
     for (const guild of guilds.values()) {
       askQuestion(guild, undefined, false);
     }
@@ -160,7 +153,6 @@ client.once(Events.ClientReady, async (readyClient) => {
   setInterval(function () {
     const guilds = client.guilds.cache;
 
-    // Loop through each guild
     for (const guild of guilds.values()) {
       askQuestion(guild, undefined, false);
     }

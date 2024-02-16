@@ -1,3 +1,5 @@
+var quizActive = [];
+
 const questionsAndAnswers = [
   [
     "Who was the first member of the ADA (Armed detective agency)?",
@@ -25,7 +27,7 @@ const questionsAndAnswers = [
   ],
   ["What song is this: hottarakashi de kusatte imasu", ["apple dot com"]],
   ["Am I sane?", ["yes", "yes babe", "absolutely"]],
-  ["There was a murder! Who's the Victim?", ["me"]],
+  ["There was a murder! Who's the victim?", ["me"]],
   ["What is the best sauce?", ["alfredo"]],
   [
     "What is my ability?",
@@ -49,38 +51,34 @@ const gifs = [
   "https://tenor.com/view/nikolai-nikolai-gogol-bungou-stray-dogs-bungo-stray-dogs-bsd-gif-5147037420049710374",
 ];
 
-// Function to find a channel by name in a guild
 async function findChannelByName(guild, channelName) {
-  // Fetch all channels in the guild
   const channels = guild.channels.cache;
 
-  // Search for the channel by name
   const channel = channels.find((channel) => channel.name === channelName);
 
-  return channel; // Returns the channel if found, otherwise returns undefined
+  return channel;
 }
 
 async function waitForMessage(channel) {
   //console.log(channel.name);
   return new Promise((resolve, reject) => {
-    const messageFilter = (message) => !message.author.bot; // Filter out bot messages
+    const messageFilter = (message) => !message.author.bot;
 
     const messageCollector = channel.createMessageCollector({
       filter: messageFilter,
       time: 60000,
-    }); // Timeout after 60 seconds
+    });
 
     messageCollector.on("collect", (message) => {
       //console.log(message);
-      // Resolve the promise with the collected message
+
       resolve(message);
-      // Stop collecting messages
+
       messageCollector.stop();
     });
 
     messageCollector.on("end", (collected, reason) => {
       if (reason === "time") {
-        // Reject the promise if no message was collected within the timeout
         reject(new Error("No message collected within the timeout"));
       }
     });
@@ -88,87 +86,98 @@ async function waitForMessage(channel) {
 }
 
 async function findRoleIdByName(guild, roleName) {
-  // Find the role by name
   const role = guild.roles.cache.find((role) => role.name === roleName);
 
   if (role) {
     //console.log(role);
-    // If the role is found, return its ID
+
     return role.id;
   } else {
-    // If the role is not found, return null or throw an error
-    return undefined; // or throw new Error('Role not found');
+    return undefined;
   }
 }
 
 exports.askQuestion = async function (guild, channel, isCommand) {
   //console.log(guild);
 
-  if (!channel) {
-    channel = await findChannelByName(guild, "nikolais_quiz_time");
+  if (!quizActive[guild.id]) {
+    quizActive[guild.id] = false;
   }
 
-  let role = await findRoleIdByName(guild, "🎲 Nikolai's Quiz Time");
+  if (quizActive[guild.id] === false) {
+    quizActive[guild.id] = true;
 
-  if (channel != undefined && role != undefined) {
-    //console.log(channel.name);
-    let chosenQuestion =
-      questionsAndAnswers[
-        Math.floor(Math.random() * questionsAndAnswers.length)
-      ];
-
-    // console.log(chosenQuestion[0], chosenQuestion[1]);
-
-    await channel.send(gifs[Math.floor(Math.random() * gifs.length)]);
-
-    if (isCommand === false) {
-      await channel.send(
-        `# <@&${role}>\n# Quiz time!\n${chosenQuestion[0]}\nYou have one minute to answer!`
-      );
-    } else {
-      await channel.send(
-        `# Quiz time!\n${chosenQuestion[0]}\nYou have one minute to answer!`
-      );
+    if (!channel) {
+      channel = await findChannelByName(guild, "nikolais_quiz_time");
     }
 
-    try {
-      const collectedMessage = await waitForMessage(channel);
+    let role = await findRoleIdByName(guild, "🎲 Nikolai's Quiz Time");
 
-      //   console.log(
-      //     `Message "${collectedMessage.content}" received from user "${collectedMessage.author.tag}"`
-      //   );
+    if (channel != undefined && role != undefined) {
+      //console.log(channel.name);
+      let chosenQuestion =
+        questionsAndAnswers[
+          Math.floor(Math.random() * questionsAndAnswers.length)
+        ];
 
-      if (chosenQuestion[1][0] === "anything") {
+      // console.log(chosenQuestion[0], chosenQuestion[1]);
+
+      if (chosenQuestion[0] != "There was a murder! Who's the victim?") {
+        await channel.send(gifs[Math.floor(Math.random() * gifs.length)]);
+      } else {
+        await channel.send(gifs[3]);
+      }
+
+      if (isCommand === false) {
         await channel.send(
-          "Great answer! Anyways, it's time for me to bounce! Cya!"
+          `# <@&${role}>\n# Quiz time!\n${chosenQuestion[0]}\nYou have one minute to answer!`
         );
       } else {
-        if (
-          chosenQuestion[1].includes(collectedMessage.content.toLowerCase())
-        ) {
+        await channel.send(
+          `# Quiz time!\n${chosenQuestion[0]}\nYou have one minute to answer!`
+        );
+      }
+
+      try {
+        const collectedMessage = await waitForMessage(channel);
+
+        //   console.log(
+        //     `Message "${collectedMessage.content}" received from user "${collectedMessage.author.tag}"`
+        //   );
+
+        if (chosenQuestion[1][0] === "anything") {
           await channel.send(
-            "You're correct! And it's time for me to bounce! Cya!"
+            "Great answer! Anyways, it's time for me to bounce! Cya!"
           );
         } else {
-          let correctAnswer =
-            chosenQuestion[1][
-              Math.floor(Math.random() * chosenQuestion[1].length)
-            ];
+          if (
+            chosenQuestion[1].includes(collectedMessage.content.toLowerCase())
+          ) {
+            await channel.send(
+              "You're correct! And it's time for me to bounce! Cya!"
+            );
+          } else {
+            let correctAnswer =
+              chosenQuestion[1][
+                Math.floor(Math.random() * chosenQuestion[1].length)
+              ];
 
-          //console.log(correctAnswer);
+            //console.log(correctAnswer);
 
+            await channel.send(
+              `You're wrongzo buddy!\nThe correct answer was "${correctAnswer}"!\nAnyways, it's time for me to bounce! Cya!`
+            );
+          }
+        }
+      } catch (error) {
+        console.error(error.message);
+        if (error.message === "No message collected within the timeout") {
           await channel.send(
-            `You're wrongzo buddy!\nThe correct answer was "${correctAnswer}"!\nAnyways, it's time for me to bounce! Cya!`
+            "Aw man, guess nobody wants to answer... Welp, time to bounce!"
           );
         }
       }
-    } catch (error) {
-      console.error(error.message);
-      if (error.message === "No message collected within the timeout") {
-        await channel.send(
-          "Aw man, guess nobody wants to answer... Welp, time to bounce!"
-        );
-      }
     }
+    quizActive[guild.id] = false;
   }
 };
