@@ -9,6 +9,7 @@ Requires node.js in order to run.
 I have to host the bot off my computer so sadly no bot invite link. The only option is to host it yourself.
 
 # Required permissions
-![image](https://github.com/DaniLionn/NikolaiBot/assets/107291896/948ae5c1-7226-4710-ab05-8f1c0229412f)
+![image](https://github.com/DaniLionn/NikolaiBot/assets/107291896/1b2a3fd9-2a18-44a7-9d74-8b7a39706c0e)
+
 
 
