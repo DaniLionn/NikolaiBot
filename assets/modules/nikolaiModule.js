@@ -226,7 +226,7 @@ exports.askQuestion = async function (guild, channel, isCommand) {
               "You're correct! And it's time for me to bounce! Cya!"
             );
           } else {
-            let correctAnswer =
+            var correctAnswer =
               chosenQuestion[1][
                 Math.floor(Math.random() * chosenQuestion[1].length)
               ];
