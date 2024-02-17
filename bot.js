@@ -4,7 +4,6 @@ const {
   Events,
   GatewayIntentBits,
   ChannelType,
-  PermissionsBitField,
 } = require("discord.js");
 const { token } = require("./config.json");
 const fs = require("node:fs");
@@ -48,19 +47,15 @@ const quizDuration = 7200000;
 
 async function checkAndCreateRole(roleName) {
   try {
-    // Fetch all guilds the bot is in
     const guilds = client.guilds.cache;
 
-    // Loop through each guild
     for (const guild of guilds.values()) {
       try {
-        // Check if the role exists
         const role = guild.roles.cache.find((role) => role.name === roleName);
 
-        // If the role doesn't exist, create it
         if (!role) {
           const createdRole = await guild.roles.create({
-            name: "🎲 Nikolai's Quiz Time", // Ensure the name is set here
+            name: roleName,
             color: 0xffffff,
             reason: "nikolai was here 😝",
           });
