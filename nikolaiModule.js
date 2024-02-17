@@ -19,7 +19,7 @@ const questionsAndAnswers = [
     ["the decay of angels", "decay of angels"],
   ],
   ["Who likes being called “Tit the Us”", ["titus"]],
-  ["Are you gay?", ["yes"]],
+  ["Are you gay?", ["yes", "yes babe", "absolutely"]],
   [`What's your opinion on “Motojiro Kajii”`, ["anything"]],
   [
     "What is the first row of the keyboard? (Skipping numbers only letters)",
@@ -44,6 +44,7 @@ const questionsAndAnswers = [
   ["What is the best vocaloid?", ["vflower"]],
   ["What is the best flavour of chip?", ["cheese", "cheddar", "orange"]],
   ["Trans rights are..?", ["human rights"]],
+  ["Solve this math question!", ["%a"]],
 ];
 
 const gifs = [
@@ -57,6 +58,33 @@ const gifs = [
   "https://tenor.com/view/nikolai-gogol-bungou-stray-dogs-gif-1254836737966925119",
   "https://tenor.com/view/nikolai-gogol-anime-bsd-bungo-stray-dogs-bungou-stray-dogs-gif-12291645727271205830",
   "https://tenor.com/view/sigma-sigma-bsd-nikolai-nikolai-bsd-nikolai-gogol-gif-15117654677192711584",
+];
+
+var operators = [
+  {
+    sign: "+",
+    method: function (a, b) {
+      return a + b;
+    },
+  },
+  {
+    sign: "-",
+    method: function (a, b) {
+      return a - b;
+    },
+  },
+  {
+    sign: "*",
+    method: function (a, b) {
+      return a * b;
+    },
+  },
+  {
+    sign: "/",
+    method: function (a, b) {
+      return a / b;
+    },
+  },
 ];
 
 async function findChannelByName(guild, channelName) {
@@ -108,6 +136,8 @@ async function findRoleIdByName(guild, roleName) {
 exports.askQuestion = async function (guild, channel, isCommand) {
   //console.log(guild);
 
+  let answerTime = 60;
+
   if (!quizActive[guild.id]) {
     quizActive[guild.id] = false;
   }
@@ -136,14 +166,42 @@ exports.askQuestion = async function (guild, channel, isCommand) {
         await channel.send(gifs[3]);
       }
 
+      if (chosenQuestion[0] === "Solve this math question!") {
+        answerTime = 120;
+
+        var operand = operators[Math.floor(Math.random() * operators.length)];
+
+        let num1 = Math.floor(Math.random() * 30) + 1;
+        let num2 = Math.floor(Math.random() * 30) + 1;
+
+        chosenQuestion[0] = `Solve this math question!\n##${num1} ${operand.sign} ${num2}`;
+
+        chosenQuestion[1] = operand.method(num1, num2).toString();
+      }
       if (isCommand === false) {
-        await channel.send(
-          `# <@&${role}>\n# Quiz time!\n${chosenQuestion[0]}\nYou have one minute to answer!`
-        );
+        let minutes = answerTime / 60;
+
+        if (minutes == 1) {
+          await channel.send(
+            `# <@&${role}>\n# Quiz time!\n${chosenQuestion[0]}\nYou have ${minutes} minute to answer!`
+          );
+        } else {
+          await channel.send(
+            `# <@&${role}>\n# Quiz time!\n${chosenQuestion[0]}\nYou have ${minutes} minutes to answer!`
+          );
+        }
       } else {
-        await channel.send(
-          `# Quiz time!\n${chosenQuestion[0]}\nYou have one minute to answer!`
-        );
+        let minutes = answerTime / 60;
+
+        if (minutes == 1) {
+          await channel.send(
+            `# Quiz time!\n${chosenQuestion[0]}\nYou have ${minutes} minute to answer!`
+          );
+        } else {
+          await channel.send(
+            `# Quiz time!\n${chosenQuestion[0]}\nYou have ${minutes} minutes to answer!`
+          );
+        }
       }
 
       try {
