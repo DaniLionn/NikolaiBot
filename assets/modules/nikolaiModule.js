@@ -45,6 +45,7 @@ const questionsAndAnswers = [
   ["What is the best flavour of chip?", ["cheese", "cheddar", "orange"]],
   ["Trans rights are..?", ["human rights"]],
   ["Solve this math question!", ["%a"]],
+  ["What is my name?", ["nikolai", "gogol", "nikolai gogol"]],
 ];
 
 const gifs = [
@@ -174,9 +175,11 @@ exports.askQuestion = async function (guild, channel, isCommand) {
         let num1 = Math.floor(Math.random() * 30) + 1;
         let num2 = Math.floor(Math.random() * 30) + 1;
 
-        chosenQuestion[0] = `Solve this math question!\n##${num1} ${operand.sign} ${num2}`;
+        chosenQuestion[0] = `Solve this math question!\n## ${num1} ${operand.sign} ${num2}`;
 
-        chosenQuestion[1] = operand.method(num1, num2).toString();
+        let result = operand.method(num1, num2);
+        console.log(result);
+        chosenQuestion[1] = `${result}`;
       }
       if (isCommand === false) {
         let minutes = answerTime / 60;
@@ -238,7 +241,7 @@ exports.askQuestion = async function (guild, channel, isCommand) {
       } catch (error) {
         if (error.message === "No message collected within the timeout") {
           await channel.send(
-            "Aw man, guess nobody wants to answer... Welp, time to bounce!"
+            `Ohhhh, too slow! The correct answer was "${correctAnswer}".`
           );
           return;
         }

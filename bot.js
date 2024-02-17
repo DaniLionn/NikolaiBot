@@ -17,11 +17,11 @@ const client = new Client({
   ],
 });
 
-const { askQuestion } = require("./nikolaiModule.js");
+const { askQuestion } = require("./assets/modules/nikolaiModule.js");
 
 client.commands = new Collection();
 
-const foldersPath = path.join(__dirname, "commands");
+const foldersPath = path.join(__dirname, "assets/commands");
 const commandFolders = fs.readdirSync(foldersPath);
 
 client.commands = new Collection();
@@ -137,7 +137,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
 
 client.once(Events.ClientReady, async (readyClient) => {
   console.log(`Ready! Logged in as ${readyClient.user.tag}`);
-  const deploy = require("./deploy-commands.js");
+  const deploy = require("./assets/scripts/deploy-commands.js");
   await checkAndCreateRole("🎲 Nikolai's Quiz Time");
   await checkAndCreateChannel("nikolais_quiz_time");
 
