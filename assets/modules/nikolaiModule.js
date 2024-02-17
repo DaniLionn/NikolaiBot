@@ -207,6 +207,9 @@ exports.askQuestion = async function (guild, channel, isCommand) {
         }
       }
 
+      var correctAnswer =
+        chosenQuestion[1][Math.floor(Math.random() * chosenQuestion[1].length)];
+
       try {
         const collectedMessage = await waitForMessage(channel);
 
@@ -226,11 +229,6 @@ exports.askQuestion = async function (guild, channel, isCommand) {
               "You're correct! And it's time for me to bounce! Cya!"
             );
           } else {
-            let correctAnswer =
-              chosenQuestion[1][
-                Math.floor(Math.random() * chosenQuestion[1].length)
-              ];
-
             //console.log(correctAnswer);
 
             await channel.send(
@@ -240,11 +238,6 @@ exports.askQuestion = async function (guild, channel, isCommand) {
         }
       } catch (error) {
         if (error.message === "No message collected within the timeout") {
-          var correctAnswer =
-            chosenQuestion[1][
-              Math.floor(Math.random() * chosenQuestion[1].length)
-            ];
-
           await channel.send(
             `Ohhhh, too slow! The correct answer was "${correctAnswer}".`
           );
