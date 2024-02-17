@@ -7,7 +7,7 @@ Idea by my sister and I and because of that some of the questions are stuff we'd
 
 Check out the todo list [here!](https://github.com/DaniLionn/NikolaiBot/blob/main/todo.md)
 
-Built using [discord.js](https://github.com/discordjs) and formatted using [prettier](https://github.com/prettier)!
+Built using [discord.js](https://github.com/discordjs) and formatted using [prettier](https://github.com/prettier/prettier)!
 Requires node.js in order to run.
 
 I have to host the bot off my computer so sadly no bot invite link. The only option is to host it yourself.
