@@ -218,14 +218,26 @@ exports.askQuestion = async function (guild, channel, isCommand) {
         //   console.log(
         //     `Message "${collectedMessage.content}" received from user "${collectedMessage.author.tag}"`
         //   );
-
+        const regex = /\p{Extended_Pictographic}/gu;
         if (chosenQuestion[1][0] === "anything") {
           await channel.send(
             "Great answer! Anyways, it's time for me to bounce! Cya!"
           );
+        } else if (chosenQuestion[0] === "What's your favourite emoji?") {
+          let emoji = regex.test(collectedMessage.content);
+
+          if (emoji === true) {
+            await channel.send(
+              "Cute emoji! Anyways, it's time for me to bounce! Cya!"
+            );
+          } else {
+            await channel.send(
+              "There's... no emoji?\nWhatever, time for me to bounce! Cya!"
+            );
+          }
         } else {
           if (
-            chosenQuestion[1].includes(collectedMessage.content.toLowerCase())
+            collectedMessage.content.toLowerCase().includes(chosenQuestion[1])
           ) {
             await channel.send(
               "You're correct! And it's time for me to bounce! Cya!"
