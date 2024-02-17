@@ -46,6 +46,8 @@ const questionsAndAnswers = [
   ["Trans rights are..?", ["human rights"]],
   ["Solve this math question!", ["%a"]],
   ["What is my name?", ["nikolai", "gogol", "nikolai gogol"]],
+  ["Tell me how you're feeling!", ["anything"]],
+  ["What's your favourite emoji?", ["anything"]],
 ];
 
 const gifs = [
