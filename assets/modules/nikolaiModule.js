@@ -178,7 +178,7 @@ exports.askQuestion = async function (guild, channel, isCommand) {
         chosenQuestion[0] = `Solve this math question!\n## ${num1} ${operand.sign} ${num2}`;
 
         let result = operand.method(num1, num2);
-        console.log(result);
+        //console.log(result);
         chosenQuestion[1] = `${result}`;
       }
       if (isCommand === false) {
