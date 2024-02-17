@@ -42,6 +42,8 @@ const questionsAndAnswers = [
     ],
   ],
   ["What is the best vocaloid?", ["vflower"]],
+  ["What is the best flavour of chip?", ["cheese", "cheddar", "orange"]],
+  ["Trans rights are..?", ["human rights"]],
 ];
 
 const gifs = [
@@ -51,6 +53,10 @@ const gifs = [
   "https://tenor.com/view/nikolai-gogol-anime-bsd-bungo-stray-dogs-bungou-stray-dogs-gif-8656635119997500484",
   "https://tenor.com/view/nikolai-gogol-bsd-bungou-stray-dogs-gif-27653499",
   "https://tenor.com/view/nikolai-nikolai-gogol-bungou-stray-dogs-bungo-stray-dogs-bsd-gif-5147037420049710374",
+  "https://tenor.com/view/bsd-nikolai-gogol-nikolai-tilda-bsd-anime-gif-27567081",
+  "https://tenor.com/view/nikolai-gogol-bungou-stray-dogs-gif-1254836737966925119",
+  "https://tenor.com/view/nikolai-gogol-anime-bsd-bungo-stray-dogs-bungou-stray-dogs-gif-12291645727271205830",
+  "https://tenor.com/view/sigma-sigma-bsd-nikolai-nikolai-bsd-nikolai-gogol-gif-15117654677192711584",
 ];
 
 async function findChannelByName(guild, channelName) {
@@ -172,12 +178,13 @@ exports.askQuestion = async function (guild, channel, isCommand) {
           }
         }
       } catch (error) {
-        console.error(error.message);
         if (error.message === "No message collected within the timeout") {
           await channel.send(
             "Aw man, guess nobody wants to answer... Welp, time to bounce!"
           );
+          return;
         }
+        console.error(error.message);
       }
     }
     quizActive[guild.id] = false;

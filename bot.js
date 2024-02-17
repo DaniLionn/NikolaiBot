@@ -4,6 +4,7 @@ const {
   Events,
   GatewayIntentBits,
   ChannelType,
+  PermissionsBitField,
 } = require("discord.js");
 const { token } = require("./config.json");
 const fs = require("node:fs");
@@ -61,7 +62,6 @@ async function checkAndCreateRole(roleName) {
           const createdRole = await guild.roles.create({
             name: "🎲 Nikolai's Quiz Time", // Ensure the name is set here
             color: 0xffffff,
-            permissions: [],
             reason: "nikolai was here 😝",
           });
           console.log(
@@ -92,7 +92,6 @@ async function checkAndCreateChannel(channelName) {
             name: channelName,
             type: ChannelType.GuildText,
             topic: "i ask questions here every 2 hours!",
-            permissionOverwrites: [],
             reason: "nikolai was here 😝 (again)",
           });
           console.log(
