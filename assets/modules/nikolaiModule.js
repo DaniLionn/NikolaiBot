@@ -75,13 +75,13 @@ var operators = [
     },
   },
   {
-    sign: "*",
+    sign: "×",
     method: function (a, b) {
       return a * b;
     },
   },
   {
-    sign: "/",
+    sign: "÷",
     method: function (a, b) {
       return a / b;
     },
@@ -96,14 +96,14 @@ async function findChannelByName(guild, channelName) {
   return channel;
 }
 
-async function waitForMessage(channel) {
+async function waitForMessage(channel, seconds) {
   //console.log(channel.name);
   return new Promise((resolve, reject) => {
     const messageFilter = (message) => !message.author.bot;
 
     const messageCollector = channel.createMessageCollector({
       filter: messageFilter,
-      time: 60000,
+      time: seconds * 1000,
     });
 
     messageCollector.on("collect", (message) => {
@@ -211,7 +211,7 @@ exports.askQuestion = async function (guild, channel, isCommand) {
         chosenQuestion[1][Math.floor(Math.random() * chosenQuestion[1].length)];
 
       try {
-        const collectedMessage = await waitForMessage(channel);
+        const collectedMessage = await waitForMessage(channel, answerTime);
 
         //   console.log(
         //     `Message "${collectedMessage.content}" received from user "${collectedMessage.author.tag}"`
@@ -246,6 +246,7 @@ exports.askQuestion = async function (guild, channel, isCommand) {
         console.error(error.message);
       }
     }
-    quizActive[guild.id] = false;
   }
+
+  quizActive[guild.id] = false;
 };
